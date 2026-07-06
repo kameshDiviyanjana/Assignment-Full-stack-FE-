@@ -25,8 +25,9 @@ export const Logincomponente: React.FC = () => {
         onSuccess: () => {
           navigate('/tasks');
         },
-        onError: (err: any) => {
-          setError(err.response?.data?.message || 'Login failed. Please try again.');
+        onError: (err) => {
+          const apiError = err as { response?: { data?: { message?: string } } };
+          setError(apiError.response?.data?.message || 'Login failed. Please try again.');
         },
       }
     );

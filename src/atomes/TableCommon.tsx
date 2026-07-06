@@ -3,6 +3,7 @@ import React from "react";
 export type Column<T> = {
   header: string;
   accessor: keyof T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render?: (value: any, row: T) => React.ReactNode;
 };
 
@@ -12,7 +13,7 @@ type CommonTableProps<T> = {
   onRowClick?: (row: T) => void; 
 };
 
-export const TableCommon = <T extends Record<string, any>>({
+export const TableCommon = <T extends object>({
   columns,
   data,
   onRowClick,

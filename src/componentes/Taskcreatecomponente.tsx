@@ -3,7 +3,7 @@ import { Inputecommone } from "../atomes/Inputecommone";
 import { Button } from "../atomes/Button";
 import { CommonModal } from "../atomes/CommonModal";
 import { taskSchema } from "../util/Formvalidation";
-import { adminAllusers, useCreateTask } from "../api/api.task";
+import { useAdminAllUsers, useCreateTask } from "../api/api.task";
 
 interface User {
   id: string;
@@ -47,12 +47,13 @@ export const Taskcreatecomponente: React.FC<Taskprops> = ({
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   // 1. Fetch users pool via your hook (Only if ADMIN)
-  const { data: users, isLoading: isLoadingUsers } = adminAllusers();
+  const { data: users, isLoading: isLoadingUsers } = useAdminAllUsers();
   
   // 2. Setup your Mutation pipeline
   const { mutateAsync, isPending: isSubmitting } = useCreateTask();
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     if (initialTask) {
       setCurrentTask(initialTask);
     } else {
@@ -64,6 +65,7 @@ export const Taskcreatecomponente: React.FC<Taskprops> = ({
     }
     setErrors({});
     setSubmitError(null);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [initialTask, isModalOpen, utype, loggedInUserId]);
 
   const validateForm = () => {
@@ -112,9 +114,10 @@ export const Taskcreatecomponente: React.FC<Taskprops> = ({
     try {
       await mutateAsync(finalTaskPayload);
       handleCloseModal();
-    } catch (err: any) {
+    } catch (err) {
+      const apiError = err as { response?: { data?: { message?: string } } };
       setSubmitError(
-        err?.response?.data?.message ?? "Something went wrong."
+        apiError?.response?.data?.message ?? "Something went wrong."
       );
     }
   };
@@ -174,7 +177,7 @@ export const Taskcreatecomponente: React.FC<Taskprops> = ({
             </label>
             <select
               value={currentTask.status}
-              onChange={(e) => setCurrentTask({ ...currentTask, status: e.target.value as any })}
+              onChange={(e) => setCurrentTask({ ...currentTask, status: e.target.value as Task["status"] })}
               className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
             >
               <option value="PENDING">To Do (Pending)</option>

@@ -32,28 +32,23 @@ export const TaskManagerPage: React.FC = () => {
 
   const {
     mutate: deleteTask,
-    isPending: taskpending,
-    isError: taskdelete,
-    error: taskdeleteerror,
   } = useAndAdminDeleteTask();
 
   const tasks: Task[] = apiResponse?.data?.data || [];
   const meta = apiResponse?.data?.meta || { total: 0, totalPages: 1, page: 1 };
 
   const totalTasks = meta.total;
-  const completedTasks = tasks.filter((t: any) => t.status === 'COMPLETED').length; // Fallback calculation
+  const completedTasks = tasks.filter((t: Task) => t.status === 'COMPLETED').length; // Fallback calculation
   const pendingTasks = totalTasks - completedTasks;
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleOpenViewModal = () => setViewisModalOpen(true);
   const handleCloseViewModal = () => setViewisModalOpen(false);
 
   const handleOpenDeleteModal = () => setDeleteisModalOpen(true);
   const handleCloseDeleteModal = () => setDeleteisModalOpen(false);
 
-  const handleOpenUpdateModal = () => setUpdateisModalOpen(true);
   const handleCloseUpdateModal = () => setUpdateisModalOpen(false);
 
   const handleViewTask = (task: Task) => {
@@ -88,7 +83,7 @@ export const TaskManagerPage: React.FC = () => {
   {
     header: "Task owner",
     accessor: "owner",
-    render: (_: any, row: Task) => row.owner?.firstname || "-",
+    render: (_: unknown, row: Task) => row.owner?.firstname || "-",
   },    {
       header: "Actions",
       accessor: "id", 
@@ -180,7 +175,7 @@ export const TaskManagerPage: React.FC = () => {
               <select
                 value={taskStatusFilter}
                 onChange={(e) => {
-                  setTaskStatusFilter(e.target.value as any);
+                  setTaskStatusFilter(e.target.value as typeof taskStatusFilter);
                   setCurrentPage(1); 
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
