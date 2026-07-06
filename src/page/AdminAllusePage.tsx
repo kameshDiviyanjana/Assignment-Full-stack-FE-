@@ -7,7 +7,6 @@ import { CommonModal } from '../atomes/CommonModal';
 import { Button } from '../atomes/Button';
 import { AdminUserRegister } from '../componentes/AdminuserRegister';
 
-// Create a User type corresponding to your JSON response
 export type User = {
   id: string;
   firstname: string;

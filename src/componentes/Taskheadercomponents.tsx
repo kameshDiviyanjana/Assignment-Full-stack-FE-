@@ -10,7 +10,6 @@ export const Taskheadercomponents: React.FC = () => {
   const username = localStorage.getItem("username");
   const utype = localStorage.getItem("Utype");
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -22,16 +21,12 @@ export const Taskheadercomponents: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    // 1. Clear token from localStorage instead of cookies
     localStorage.removeItem("accessToken"); 
     localStorage.removeItem("refreshToken");
     localStorage
 .removeItem("Utype"); // Clear user type
     localStorage.removeItem("OwId"); // Clear user ID
 
-
-    
-    // 2. Redirect back to your login screen
     navigate("/"); 
   };
 
@@ -48,10 +43,8 @@ export const Taskheadercomponents: React.FC = () => {
           </h1>
         </div>
 
-        {/* Right Side: User Controls */}
         <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
           {isLoading ? (
-            // Loading Skeleton State
             <div className="flex items-center space-x-3 animate-pulse">
               <div className="h-4 w-24 bg-gray-200 rounded"></div>
               <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
@@ -62,7 +55,6 @@ export const Taskheadercomponents: React.FC = () => {
                 Welcome, {username}
               </span>
 
-              {/* Clickable Profile Image Container */}
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="h-8 w-8 rounded-full bg-indigo-200 border border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-700 hover:ring-2 hover:ring-indigo-500/40 transition focus:outline-none"
@@ -70,10 +62,8 @@ export const Taskheadercomponents: React.FC = () => {
                 {username?.charAt(0).toUpperCase() || "U"}
               </button>
 
-              {/* Floating Dropdown Card */}
               {isDropdownOpen && (
                 <div className="absolute right-0 top-11 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-fade-in">
-                  {/* User Profile Information Details */}
                   <div className="px-4 py-3 border-b border-gray-100">
                     <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Account</p>
                     <p className="text-sm font-bold text-gray-800 mt-1">
@@ -84,7 +74,6 @@ export const Taskheadercomponents: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Actions Area */}
                   <div className="p-1.5 space-y-0.5">
                     <button
                       onClick={() => {

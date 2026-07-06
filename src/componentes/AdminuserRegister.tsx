@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { z } from "zod";
 import { Button } from "../atomes/Button";
 import { useRegister } from "../api/aut.api";
 import { CommonModal } from "../atomes/CommonModal";
 import { registerSchema } from "../util/Formvalidation";
 
-// --- 1. Define Zod Validation Schema ---
 
 
 type AdminUserRegisterProps = {
@@ -33,7 +31,6 @@ export const AdminUserRegister: React.FC<AdminUserRegisterProps> = ({
     e.preventDefault();
     setError("");
 
-    // --- 2. Execute Schema Validation ---
     const validationResult = registerSchema.safeParse({
       firstName,
       lastName,
@@ -44,11 +41,9 @@ export const AdminUserRegister: React.FC<AdminUserRegisterProps> = ({
 
 if (!validationResult.success) {
   const formattedErrors = validationResult.error.format();
-  // Example: Gets the first error under the firstName field specifically
   setError(formattedErrors.firstName?._errors[0] || "Validation failed.");
   return;
 }
-    // --- 3. Run Remote Mutation ---
     registerMutation.mutate(
       { firstName, lastName, email, password },
       {
@@ -72,9 +67,7 @@ if (!validationResult.success) {
       onClose={handleClose}
       position="right"
     >
-      {/* Cleaned layout: Removed full viewport wrappers so it frames elegantly within your Modal */}
       <div className="w-full max-w-md mx-auto space-y-6 bg-white p-2">
-        {/* Header */}
         <div className="text-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
             Create a new account
@@ -84,14 +77,12 @@ if (!validationResult.success) {
           </p>
         </div>
 
-        {/* Dynamic Validation Alert Pane */}
         {error && (
           <div className="rounded-md bg-red-50 p-4 text-sm text-red-700 border border-red-200 transition-all">
             ⚠️ {error}
           </div>
         )}
 
-        {/* Input Form Fields */}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-1">
@@ -155,7 +146,6 @@ if (!validationResult.success) {
             />
           </div>
 
-          {/* Form Action Controls */}
           <div className="pt-2">
             <Button
               btname={registerMutation.isPending ? "Registering..." : "Register Account"}

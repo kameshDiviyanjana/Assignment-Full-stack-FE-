@@ -18,12 +18,9 @@ export const TaskViewcomponente: React.FC<TaskViewProps> = ({
       isOpen={isModalOpen}
       title="Task Details View"
       onClose={handleClose}
-      position="right" // Right-side drawer
+      position="right" 
     >
-      {/* 
-        REMOVED: The outer white border card wrapper and redundant header text.
-        They are perfectly styled inside your custom CommonModal right drawer structure!
-      */}
+    
       {selectedTaskDetails ? (
         <div className="space-y-5">
           <div>
