@@ -47,7 +47,7 @@ authFetch.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return authFetch(originalRequest);
-      } catch (err) {
+      } catch {
         localStorage.clear();
         window.location.href = "/";
       }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Logincomponente } from '../componentes/Logincomponente';
 
 export const LoginPage: React.FC = () => {

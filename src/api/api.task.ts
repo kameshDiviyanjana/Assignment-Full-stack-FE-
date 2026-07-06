@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import authFetch from "./authFetch";
-import type { Task } from "../util/types";
 import type { TaskForm } from "../componentes/Taskupdatecomponente";
 
 type TaskStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED";
@@ -43,8 +42,9 @@ export const AdminandUserAllTasks = (params: UseTasksParams = {}) => {
         });
 
         return data; // ✅ IMPORTANT FIX
-      } catch (error: any) {
-        console.error("API Error:", error?.response?.data || error.message);
+      } catch (error) {
+        const err = error as { response?: { data?: unknown }; message?: string };
+        console.error("API Error:", err?.response?.data || err.message);
         throw error;
       }
     },
@@ -71,8 +71,9 @@ export const createTask = async (taskData: CreateTaskData) => {
   try {
     const { data } = await authFetch.post("/task", taskData);
     return data;
-  } catch (error: any) {
-    console.error("API Error:", error?.response?.data || error.message);
+  } catch (error) {
+    const err = error as { response?: { data?: unknown }; message?: string };
+    console.error("API Error:", err?.response?.data || err.message);
     throw error; // IMPORTANT → lets React Query handle it
   }
 };
@@ -108,7 +109,7 @@ export const useCreateTask = () => {
 
 // }
 
-export const adminAllusers = () => {
+export const useAdminAllUsers = () => {
   return useQuery({
     queryKey: ["users"],
     queryFn: async () => {

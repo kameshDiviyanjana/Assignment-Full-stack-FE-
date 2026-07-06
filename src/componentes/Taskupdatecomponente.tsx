@@ -3,7 +3,7 @@ import { Inputecommone } from "../atomes/Inputecommone";
 import { Button } from "../atomes/Button";
 import { CommonModal } from "../atomes/CommonModal";
 import { taskSchema } from "../util/Formvalidation";
-import { adminAllusers, useUpdateTask } from "../api/api.task";
+import { useAdminAllUsers, useUpdateTask } from "../api/api.task";
 
 interface User {
   id: string;
@@ -35,18 +35,20 @@ export const Taskupdatecomponente: React.FC<TaskUpdateProps> = ({
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   // 1. Fetch users list for owner reassignment
-  const { data: users, isLoading: isLoadingUsers } = adminAllusers();
+  const { data: users, isLoading: isLoadingUsers } = useAdminAllUsers();
   
   // 2. Load dedicated update mutation pipeline
   const { mutateAsync: updateTask, isPending: isSubmitting } = useUpdateTask();
 
   // Keep state sync updated when target selection changes in the parent tree
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     if (initialTask) {
       setCurrentTask(initialTask);
     }
     setErrors({});
     setSubmitError(null);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [initialTask, isModalOpen]);
 
   const validateForm = () => {
@@ -83,9 +85,10 @@ export const Taskupdatecomponente: React.FC<TaskUpdateProps> = ({
       // 3. Directly trigger update mutation
     await updateTask(currentTask); // ✅ correct usage
       handleCloseModal();
-    } catch (err: any) {
+    } catch (err) {
+      const apiError = err as { response?: { data?: { message?: string } } };
       setSubmitError(
-        err?.response?.data?.message ?? "Something went wrong while updating."
+        apiError?.response?.data?.message ?? "Something went wrong while updating."
       );
     }
   };
@@ -149,7 +152,7 @@ export const Taskupdatecomponente: React.FC<TaskUpdateProps> = ({
             </label>
             <select
               value={currentTask.status}
-              onChange={(e) => setCurrentTask({ ...currentTask, status: e.target.value as any })}
+              onChange={(e) => setCurrentTask({ ...currentTask, status: e.target.value as TaskForm["status"] })}
               className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
             >
               <option value="PENDING">To Do (Pending)</option>

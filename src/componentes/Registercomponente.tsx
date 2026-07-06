@@ -29,8 +29,9 @@ export const Registercomponente: React.FC = () => {
         onSuccess: () => {
           navigate('/tasks');
         },
-        onError: (err: any) => {
-          setError(err.response?.data?.message || 'Registration failed. Please try again.');
+        onError: (err) => {
+          const apiError = err as { response?: { data?: { message?: string } } };
+          setError(apiError.response?.data?.message || 'Registration failed. Please try again.');
         },
       }
     );

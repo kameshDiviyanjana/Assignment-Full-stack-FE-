@@ -51,9 +51,10 @@ if (!validationResult.success) {
           handleClose();
           navigate("/tasks");
         },
-        onError: (err: any) => {
+        onError: (err) => {
+          const apiError = err as { response?: { data?: { message?: string } } };
           setError(
-            err.response?.data?.message || "Registration failed. Please try again."
+            apiError.response?.data?.message || "Registration failed. Please try again."
           );
         },
       }
