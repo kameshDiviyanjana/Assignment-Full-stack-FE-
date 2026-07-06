@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { taskSchema, registerSchema } from "./Formvalidation";
+import { taskSchema, registerSchema } from "../util/Formvalidation";
 
 describe("taskSchema", () => {
   const getFutureDate = (daysAhead = 1): string => {

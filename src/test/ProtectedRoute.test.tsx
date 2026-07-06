@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { ProtectedRoute } from "./ProtectedRoute";
+import { ProtectedRoute } from "../componentes/ProtectedRoute";
 import { isTokenValid } from "../api/tokenUtils";
 
 // Mock react-router-dom Navigate component
