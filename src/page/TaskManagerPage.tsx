@@ -18,13 +18,11 @@ export const TaskManagerPage: React.FC = () => {
   const [updateisModalOpen, setUpdateisModalOpen] = useState(false);
   const [selectedTaskDetails, setSelectedTaskDetails] = useState<Task | null>(null);
 
-  // --- Server-Side Pagination & Search State ---
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [taskStatusFilter, setTaskStatusFilter] = useState<"PENDING" | "IN_PROGRESS" | "COMPLETED" | "">("");
   const itemsPerPage = 10;
 
-  // 1. Fire the custom React Query API hook
   const { data: apiResponse, isLoading, isError } = AdminandUserAllTasks({
     page: currentPage,
     limit: itemsPerPage,
@@ -39,11 +37,9 @@ export const TaskManagerPage: React.FC = () => {
     error: taskdeleteerror,
   } = useAndAdminDeleteTask();
 
-  // 2. Extract arrays cleanly matching your custom backend nesting structure: data.data.data
   const tasks: Task[] = apiResponse?.data?.data || [];
   const meta = apiResponse?.data?.meta || { total: 0, totalPages: 1, page: 1 };
 
-  // Calculate quick stats totals safely from computed arrays
   const totalTasks = meta.total;
   const completedTasks = tasks.filter((t: any) => t.status === 'COMPLETED').length; // Fallback calculation
   const pendingTasks = totalTasks - completedTasks;
@@ -107,7 +103,6 @@ export const TaskManagerPage: React.FC = () => {
             👁️
           </button>
 
-          {/* Update / Edit Icon Button */}
           <button
             onClick={() => handleEditTask(row)}
             className="p-1 text-amber-600 hover:bg-amber-50 rounded transition-colors"
@@ -116,7 +111,6 @@ export const TaskManagerPage: React.FC = () => {
             ✏️
           </button>
 
-          {/* Delete Icon Button */}
           <button
             onClick={() => {
               setSelectedTaskDetails(row);
@@ -136,19 +130,14 @@ export const TaskManagerPage: React.FC = () => {
     <div className="min-h-screen bg-gray-100 font-sans antialiased">
       <Taskheadercomponents />
 
-      {/* FIXED Layout Wrapper: Prevents layout compression */}
       <div className="flex flex-col lg:flex-row gap-6  w-full mx-auto p-4 lg:p-6">
         
-        {/* Left Side: Sidebar container */}
         <div className="lg:w-64 w-full flex-shrink-0">
-          {/* Linked setStatus state handler to Sidebar configuration */}
           <TaskSidebar  />
         </div>
 
-        {/* Right Side: Main Content pane */}
         <div className="flex-1 w-full space-y-6">
 
-          {/* Metric Cards Dashboard */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
             <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
               <div>
@@ -173,7 +162,6 @@ export const TaskManagerPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Dashboard Control Toolbar */}
           <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
             <div className="flex-1">
               <input
@@ -205,7 +193,6 @@ export const TaskManagerPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Table Container Card */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-wrap gap-4">
               <h2 className="text-lg font-semibold text-gray-900">Task Overview</h2>
@@ -217,7 +204,6 @@ export const TaskManagerPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Handle Loading & Error Fallbacks */}
             {isLoading ? (
               <div className="p-12 text-center text-gray-500 animate-pulse">Syncing pipeline components data...</div>
             ) : isError ? (
@@ -230,7 +216,6 @@ export const TaskManagerPage: React.FC = () => {
               />
             )}
 
-            {/* --- Server-Side Action Pagination Footer --- */}
             <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
               <span className="text-sm text-gray-600">
                 Page <span className="font-bold text-gray-800">{meta.page}</span> of <span className="font-bold text-gray-800">{meta.totalPages}</span>
@@ -255,7 +240,6 @@ export const TaskManagerPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Modal Overlay Components */}
           <TaskViewcomponente selectedTaskDetails={selectedTaskDetails} isModalOpen={viewisModalOpen} handleClose={handleCloseViewModal} />
 
           <Taskupdatecomponente isModalOpen={updateisModalOpen} handleClose={handleCloseUpdateModal} initialTask={selectedTaskDetails || { title: '', description: '', status: 'PENDING', dueDate: '', ownerId: '' }} />

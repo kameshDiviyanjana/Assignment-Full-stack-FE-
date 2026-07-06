@@ -14,13 +14,11 @@ export const Logincomponente: React.FC = () => {
     e.preventDefault();
     setError('');
 
-    // Basic Validation
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
 
-    // Handle authentication logic
     loginMutation.mutate(
       { email, password },
       {
@@ -37,7 +35,6 @@ export const Logincomponente: React.FC = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl">
-        {/* Header */}
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
             Welcome back
@@ -50,14 +47,12 @@ export const Logincomponente: React.FC = () => {
           </p>
         </div>
 
-        {/* Error Alert */}
         {error && (
           <div className="rounded-md bg-red-50 p-4 text-sm text-red-700 border border-red-200">
             {error}
           </div>
         )}
 
-        {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4 rounded-md">
             <div>
@@ -92,7 +87,6 @@ export const Logincomponente: React.FC = () => {
             </div>
           </div>
 
-          {/* Forgot Password */}
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
@@ -101,7 +95,6 @@ export const Logincomponente: React.FC = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div>
             <Button 
               btname={loginMutation.isPending ? 'Signing in...' : 'Sign in'} 
