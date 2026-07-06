@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { decodeToken, isTokenExpired, isTokenValid, getAccessToken } from "./tokenUtils";
+import { decodeToken, isTokenExpired, isTokenValid, getAccessToken } from "../api/tokenUtils";
 
 // Helper to create a dummy JWT token with a given payload
 const createDummyToken = (payload: object): string => {
