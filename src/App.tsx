@@ -11,7 +11,6 @@ function App() {
   const { data: user, isLoading, isError } = useAuth();
   const hasValidToken = isTokenValid();
 
-  // Show loading while checking auth
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -23,40 +22,36 @@ function App() {
     );
   }
 
-  // Check if user is authenticated (token is valid AND has user data)
   const isAuthenticated = hasValidToken && user && !isError;
 
   return (
     <Routes>
-      {/* If user is logged in, redirect from login page to tasks */}
-      <Route 
-        path="/" 
-        element={isAuthenticated ? <Navigate to="/tasks" replace /> : <LoginPage />} 
+      <Route
+        path="/"
+        element={<LoginPage />}
       />
-      
-      {/* Register route - public */}
-      <Route 
-        path="/register" 
-        element={isAuthenticated ? <Navigate to="/tasks" replace /> : <Registercomponente />} 
+
+      <Route
+        path="/register"
+        element={<Registercomponente />}
       />
-      
-      {/* Protected task manager route */}
-      <Route 
-        path="/tasks" 
+
+      <Route
+        path="/tasks"
         element={
           <ProtectedRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
             <TaskManagerPage />
           </ProtectedRoute>
-        } 
+        }
       />
 
-       <Route 
-        path="/admin/all-users" 
+      <Route
+        path="/admin/all-users"
         element={
           <ProtectedRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
             <AdminAllUsersPage />
           </ProtectedRoute>
-        } 
+        }
       />
 
       {/* Fallback route */}
