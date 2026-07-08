@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Inputecommone } from "../atomes/Inputecommone";
 import { Button } from "../atomes/Button";
 import { CommonModal } from "../atomes/CommonModal";
@@ -37,13 +37,22 @@ export const Taskupdatecomponente: React.FC<TaskUpdateProps> = ({
   const { data: users, isLoading: isLoadingUsers } = useAdminAllUsers();
   const { mutateAsync: updateTask, isPending: isSubmitting } = useUpdateTask();
 
-  useEffect(() => {
+  const [prevProps, setPrevProps] = useState({
+    initialTask,
+    isModalOpen
+  });
+
+  if (
+    initialTask !== prevProps.initialTask ||
+    isModalOpen !== prevProps.isModalOpen
+  ) {
+    setPrevProps({ initialTask, isModalOpen });
     if (initialTask) {
       setCurrentTask(initialTask);
     }
     setErrors({});
     setSubmitError(null);
-  }, [initialTask, isModalOpen]);
+  }
 
   const validateForm = () => {
     const result = taskSchema.safeParse(currentTask);

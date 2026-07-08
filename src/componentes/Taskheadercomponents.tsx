@@ -20,7 +20,10 @@ export const Taskheadercomponents: React.FC = () => {
   const username = localStorage.getItem("username");
   const utype = localStorage.getItem("Utype");
 
-  useEffect(() => {
+  const [prevData, setPrevData] = useState(data);
+
+  if (data !== prevData) {
+    setPrevData(data);
     if (data?.user) {
       setFormData({
         firstname: data.user.firstname || "",
@@ -28,7 +31,7 @@ export const Taskheadercomponents: React.FC = () => {
         email: data.user.email || ""
       });
     }
-  }, [data]);
+  }
 
   const updateProfileMutation = useUpdateProfile();
 
