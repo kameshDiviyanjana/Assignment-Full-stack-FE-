@@ -23,6 +23,8 @@ export const TaskManagerPage: React.FC = () => {
   const [taskStatusFilter, setTaskStatusFilter] = useState<"PENDING" | "IN_PROGRESS" | "COMPLETED" | "">("");
   const itemsPerPage = 10;
 
+
+
   const { data: apiResponse, isLoading, isError } = AdminandUserAllTasks({
     page: currentPage,
     limit: itemsPerPage,
@@ -72,21 +74,20 @@ export const TaskManagerPage: React.FC = () => {
       header: "Status",
       accessor: "status",
       render: (val: string) => (
-        <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${
-          val === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+        <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${val === 'COMPLETED' ? 'bg-green-100 text-green-800' :
           val === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'
-        }`}>
+          }`}>
           {val}
         </span>
       )
-    }, 
-  {
-    header: "Task owner",
-    accessor: "owner",
-    render: (_: unknown, row: Task) => row.owner?.firstname || "-",
-  },    {
+    },
+    {
+      header: "Task owner",
+      accessor: "owner",
+      render: (_: unknown, row: Task) => row.owner?.firstname || "-",
+    }, {
       header: "Actions",
-      accessor: "id", 
+      accessor: "id",
       render: (_, row: Task) => (
         <div className="flex items-center space-x-2" onClick={(e) => e.stopPropagation()}>
           {/* View Icon Button */}
@@ -126,9 +127,9 @@ export const TaskManagerPage: React.FC = () => {
       <Taskheadercomponents />
 
       <div className="flex flex-col lg:flex-row gap-6  w-full mx-auto p-4 lg:p-6">
-        
+
         <div className="lg:w-64 w-full flex-shrink-0">
-          <TaskSidebar  />
+          <TaskSidebar setStatus={setTaskStatusFilter} />
         </div>
 
         <div className="flex-1 w-full space-y-6">
@@ -165,7 +166,7 @@ export const TaskManagerPage: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
-                  setCurrentPage(1); 
+                  setCurrentPage(1);
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
@@ -176,7 +177,7 @@ export const TaskManagerPage: React.FC = () => {
                 value={taskStatusFilter}
                 onChange={(e) => {
                   setTaskStatusFilter(e.target.value as typeof taskStatusFilter);
-                  setCurrentPage(1); 
+                  setCurrentPage(1);
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
               >
@@ -271,3 +272,4 @@ export const TaskManagerPage: React.FC = () => {
     </div>
   );
 };
+

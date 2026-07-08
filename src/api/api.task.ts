@@ -1,17 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import authFetch from "./authFetch";
 import type { TaskForm } from "../componentes/Taskupdatecomponente";
-
-type TaskStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED";
-
-interface UseTasksParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  status?: TaskStatus;
-  userId?: string;
-}
-
+import type { TaskStatus, UseTasksParams } from "../util/types";
 
 export const AdminandUserAllTasks = (params: UseTasksParams = {}) => {
   const { page = 1, limit = 10, search, status } = params;
@@ -62,10 +52,7 @@ export interface CreateTaskData {
   dueDate: string;
 }
 
-// export const createTask = async (taskData: CreateTaskData) => {
-//   const { data } = await authFetch.post("/task", taskData);
-//   return data;
-// };
+
 
 export const createTask = async (taskData: CreateTaskData) => {
   try {
@@ -96,18 +83,7 @@ export const useCreateTask = () => {
 
 
 
-// export const adminAllusers = async () => {
 
-//    return useQuery({
-//     queryKey: ["adminAllusers"],
-//     queryFn: async () => {
-//       const res = await authFetch.get("/user/admin");
-//       return data.data;
-//     },
-   
-//   });
-
-// }
 
 export const useAdminAllUsers = () => {
   return useQuery({
@@ -156,6 +132,6 @@ export const useAndAdminDeleteTask = () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     }
   }
-);
+  );
 
 }
