@@ -6,15 +6,15 @@ export const useAuth = () => {
     queryKey: ["me"],
     queryFn: async () => {
       const res = await authFetch.get("/auth/me");
-      localStorage.setItem("Utype", res.data.user.role); // Store user type in localStorage
-      localStorage.setItem("OwId", res.data.user.id); // Store user ID in localStorage
-      localStorage.setItem("username", res.data.user.firstname); // Store username in localStorage
+      localStorage.setItem("Utype", res.data.user.role);
+      localStorage.setItem("OwId", res.data.user.id);
+      localStorage.setItem("username", res.data.user.firstname);
       return res.data;
     },
     retry: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes - keep data fresh without refetching
-    gcTime: 10 * 60 * 1000, // 10 minutes - cache time
-    enabled: true, // Only run when there's a valid token
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    enabled: true,
   });
 };
 
@@ -50,7 +50,6 @@ export const useLogin = () => {
     onSuccess: (data) => {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-      // Invalidate the auth query to refresh user data
       queryClient.invalidateQueries({ queryKey: ["me"] });
     },
   });
@@ -66,7 +65,6 @@ export const useRegister = () => {
     onSuccess: (data) => {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-      // Invalidate the auth query to refresh user data
       queryClient.invalidateQueries({ queryKey: ["me"] });
     },
   });
@@ -81,7 +79,6 @@ export const useLogout = () => {
     onSuccess: () => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      // Clear the auth query cache
       queryClient.invalidateQueries({ queryKey: ["me"] });
     },
   });

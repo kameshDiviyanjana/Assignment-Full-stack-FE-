@@ -97,10 +97,10 @@ export const Logincomponente: React.FC = () => {
           </div>
 
           <div>
-            <Button 
-              btname={loginMutation.isPending ? 'Signing in...' : 'Sign in'} 
-              btcolor="bg-indigo-600" 
-              btstyle="hover:bg-indigo-700 disabled:opacity-50" 
+            <Button
+              btname={loginMutation.isPending ? 'Signing in...' : 'Sign in'}
+              btcolor="bg-indigo-600"
+              btstyle="hover:bg-indigo-700 disabled:opacity-50 text-white"
               disabled={loginMutation.isPending}
             />
           </div>

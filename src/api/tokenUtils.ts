@@ -1,4 +1,3 @@
-// Decode and validate JWT token
 export const decodeToken = (token: string) => {
   try {
     const base64Url = token.split(".")[1];
@@ -15,17 +14,14 @@ export const decodeToken = (token: string) => {
   }
 };
 
-// Check if token is expired
 export const isTokenExpired = (token: string): boolean => {
   const decoded = decodeToken(token);
   if (!decoded || !decoded.exp) {
     return true;
   }
-  // exp is in seconds, convert to milliseconds
   return decoded.exp * 1000 < Date.now();
 };
 
-// Check if token exists and is valid
 export const isTokenValid = (): boolean => {
   const token = localStorage.getItem("accessToken");
   if (!token) {
@@ -34,7 +30,6 @@ export const isTokenValid = (): boolean => {
   return !isTokenExpired(token);
 };
 
-// Get token from storage
 export const getAccessToken = (): string | null => {
   return localStorage.getItem("accessToken");
 };
